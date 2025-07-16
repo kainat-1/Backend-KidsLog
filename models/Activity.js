@@ -1,11 +1,9 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 
-const activitySchema = new Schema({
-  title: { type: String, required: true },
-  description: String,
-  date: { type: Date, default: Date.now },
-  kid: { type: Schema.Types.ObjectId, ref: "Kid", required: true },
+const ActivitySchema = new mongoose.Schema({
+  task: String,
 });
 
-const Activity = model("Activity", activitySchema);
-export default Activity;
+const ActivityModel = mongoose.model("todo", ActivitySchema);
+
+module.exports = ActivityModel;
