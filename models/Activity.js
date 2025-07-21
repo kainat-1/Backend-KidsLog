@@ -1,9 +1,17 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const ActivitySchema = new mongoose.Schema({
-  task: String,
+const activitySchema = new mongoose.Schema({
+  title: String,
+  status: {
+    type: String,
+    enum: ["inprocess", "done", "later"],
+    default: "inprocess"
+  },
+  kid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Kid"
+  }
 });
 
-const ActivityModel = mongoose.model("todo", ActivitySchema);
-
-module.exports = ActivityModel;
+const Activity = mongoose.model("Activity", activitySchema);
+export default Activity;

@@ -1,27 +1,36 @@
 import mongoose from "mongoose";
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
-import ActivityModel from '/model/Activity.js';
+import dotenv from "dotenv";
+import authRoutes from "./Routes/auth.js";
+import activitiesRoutes from "./Routes/Activity.js";
+
+
 dotenv.config();
 
+console.log("MONGO_URI:", process.env.MONGO_URI);
+console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: process.env.CLIENT_URL, 
+}));
 app.use(express.json());
 
-
-mongoose.connect('mongodb://localhost:27017/test')
-app.post("/add", (req, res) => {
-  const task = req.body.task;
-
-});
+app.use("/api", authRoutes);
+app.use("/api/activities", activitiesRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+mongoose
+  .connect(process.env.MONGO_URI)  
+  .then(() => {
+    console.log("MongoDB connected");
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("MongoDB connection failed:", error);
+  });
