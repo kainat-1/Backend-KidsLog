@@ -3,7 +3,7 @@ import Activity from "../models/Activity.js";
 
 const router = express.Router();
 
-// Create a new activity (POST /api/activities)
+
 router.post("/", async (req, res) => {
   try {
     const activity = new Activity(req.body);
@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Get all activities (GET /api/activities)
+
 router.get("/", async (req, res) => {
   try {
     const activities = await Activity.find();
@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Delete an activity (DELETE /api/activities/:id)
+
 router.delete("/:id", async (req, res) => {
   try {
     const deleted = await Activity.findByIdAndDelete(req.params.id);
